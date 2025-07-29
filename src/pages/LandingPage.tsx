@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 const LandingPage: React.FC = () => {
     const [input, setInput] = useState('');
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
+    const [error] = useState<string | null>(null);
     const navigate = useNavigate();
 
     const handleSendMessage = async () => {

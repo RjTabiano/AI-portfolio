@@ -20,7 +20,7 @@ const ChatPage = () => {
       setDisplayedAI("");
       let i = 0;
       typingInterval.current = window.setInterval(() => {
-        setDisplayedAI((prev) => {
+        setDisplayedAI(() => {
           if (pendingAI && i < pendingAI.length) {
             i++;
             return pendingAI.slice(0, i);
