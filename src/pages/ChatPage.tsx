@@ -1,9 +1,10 @@
 import { useState, useRef, useEffect } from "react";
-import ChatInput from '../components/ChatInput';
+import ChatInput from '../components/chat/ChatInput';
 import FactsBubbles from '../components/FactsBubbles';
 import Header from '../components/Header';
+import ToolRenderer from '../components/tools/ToolRenderer';
 import { sendChatMessage } from "../services/ai/chatService";
-import { ChatMessage } from "../types/ai";
+import { ChatMessage } from "../types";
 
 const TYPING_SPEED = 20; // ms per character
 
@@ -13,6 +14,7 @@ const ChatPage = () => {
   const [loading, setLoading] = useState(false);
   const [pendingAI, setPendingAI] = useState<string | null>(null);
   const [displayedAI, setDisplayedAI] = useState<string>("");
+  const [currentToolCall, setCurrentToolCall] = useState<any>(null);
   const typingInterval = useRef<number | null>(null);
 
   useEffect(() => {
@@ -48,10 +50,14 @@ const ChatPage = () => {
     // Show loading indicator
     setPendingAI(null);
     setDisplayedAI("");
+    setCurrentToolCall(null);
 
     const aiReply = await sendChatMessage(updatedMessages);
     setLoading(false);
-    setPendingAI(aiReply || "No reply received.");
+    setPendingAI(aiReply.response || "No reply received.");
+    
+    // Handle single tool call
+    setCurrentToolCall(aiReply.toolCalls || null);
   };
 
   return (
@@ -88,6 +94,12 @@ const ChatPage = () => {
                   <span className="inline-block px-6 py-4 rounded-xl text-lg leading-relaxed break-words text-white w-full">
                     {displayedAI}
                   </span>
+                </div>
+              )}
+              {/* Tool Calls */}
+              {currentToolCall && !loading && (
+                <div className="mb-4">
+                  <ToolRenderer toolInvocations={currentToolCall} />
                 </div>
               )}
             </div>

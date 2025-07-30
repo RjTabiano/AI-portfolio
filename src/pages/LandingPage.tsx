@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ChatInput from '../components/ChatInput';
+import ChatInput from '../components/chat/ChatInput';
 import ErrorBanner from '../components/ErrorBanner';
 import ParticlesBackground from '../components/ParticlesBackground';
 import FactsBubbles from '../components/FactsBubbles';
