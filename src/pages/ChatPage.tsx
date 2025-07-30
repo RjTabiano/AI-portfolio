@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import ChatInput from '../components/chat/ChatInput';
 import FactsBubbles from '../components/FactsBubbles';
 import Header from '../components/Header';
@@ -9,13 +10,28 @@ import { ChatMessage } from "../types";
 const TYPING_SPEED = 20; // ms per character
 
 const ChatPage = () => {
+  const location = useLocation();
   const [chatLog, setChatLog] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [pendingAI, setPendingAI] = useState<string | null>(null);
   const [displayedAI, setDisplayedAI] = useState<string>("");
   const [currentToolCall, setCurrentToolCall] = useState<any>(null);
+  const [hasInitialMessage, setHasInitialMessage] = useState(false);
   const typingInterval = useRef<number | null>(null);
+
+  // Handle initial message from landing page
+  useEffect(() => {
+    const initialInput = location.state?.initialInput;
+    if (initialInput && !hasInitialMessage) {
+      setInput(initialInput);
+      setHasInitialMessage(true);
+      // Automatically send the initial message after a short delay
+      setTimeout(() => {
+        handleSend(initialInput);
+      }, 100);
+    }
+  }, [location.state, hasInitialMessage]);
 
   useEffect(() => {
     if (pendingAI !== null) {
@@ -39,10 +55,11 @@ const ChatPage = () => {
     };
   }, [pendingAI]);
 
-  const handleSend = async () => {
-    if (!input.trim() || loading) return;
+  const handleSend = async (message?: string) => {
+    const messageToSend = message || input;
+    if (!messageToSend.trim() || loading) return;
     setLoading(true);
-    const userMessage: ChatMessage = { role: "user", content: input };
+    const userMessage: ChatMessage = { role: "user", content: messageToSend };
     const updatedMessages = [...chatLog, userMessage];
     setChatLog(updatedMessages);
     setInput("");
@@ -109,7 +126,7 @@ const ChatPage = () => {
               <ChatInput
                 input={input}
                 setInput={setInput}
-                onSend={handleSend}
+                onSend={() => handleSend()}
                 loading={loading}
               />
             </div>
