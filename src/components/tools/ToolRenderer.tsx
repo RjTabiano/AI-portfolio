@@ -1,4 +1,8 @@
 import AllProjects from '../../features/tools/projects/AllProjects';
+import Resume from '../../features/tools/Resume';
+import Contact from '../../features/tools/Contact';
+import Presentation from '../../features/tools/Presentation';
+import Skills from '../../features/tools/Skills';
 
 interface ToolRendererProps {
   toolInvocations: string;
@@ -7,7 +11,6 @@ interface ToolRendererProps {
 export default function ToolRenderer({ toolInvocations }: ToolRendererProps) {
   if (!toolInvocations) return null;
 
-  // Normalize tool name if needed
   const toolName = toolInvocations;
 
   switch (toolName) {
@@ -19,19 +22,21 @@ export default function ToolRenderer({ toolInvocations }: ToolRendererProps) {
         </div>
       );
     case 'getPresentation':
-      return <div className="w-full overflow-hidden rounded-lg"></div>;
+      return <div className="w-full overflow-hidden rounded-lg">
+        <Presentation/>
+      </div>;
     case 'getResume':
-      return <div className="w-full rounded-lg"></div>;
+      return <div className="w-full rounded-lg">
+        <Resume />
+      </div>;
     case 'getContact':
-      return <div className="w-full rounded-lg"></div>;
+      return <div className="w-full rounded-lg">
+        <Contact />
+      </div>;
     case 'getSkills':
-      return <div className="w-full rounded-lg"></div>;
-    case 'getSports':
-      return <div className="w-full rounded-lg"></div>;
-    case 'getCrazy':
-      return <div className="w-full rounded-lg"></div>;
-    case 'getInternship':
-      return <div className="w-full rounded-lg"></div>;
+      return <div className="w-full rounded-lg">
+        <Skills />
+      </div>;
     default:
       return (
         <div className="bg-secondary/10 w-full rounded-lg p-4">
