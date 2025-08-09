@@ -19,14 +19,14 @@ const ChatInput: React.FC<ChatInputProps> = ({ input, setInput, onSend, loading 
           onChange={e => setInput(e.target.value)}
           onKeyDown={e => e.key === 'Enter' && onSend()}
           placeholder="Ask me anything..."
-          className="flex-1 px-3 py-4 text-gray-800 bg-transparent placeholder-gray-600 focus:outline-none rounded-l-full"
+          className="flex-1 px-3 py-3 md:py-4 text-gray-800 bg-transparent placeholder-gray-600 focus:outline-none rounded-l-full"
           disabled={loading}
         />
 
         <button
           onClick={onSend}
           disabled={loading}
-          className="w-10 h-10 flex items-center justify-center bg-blue-400 hover:bg-blue-500 transition-colors text-white rounded-full mr-1 disabled:opacity-50"
+          className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center bg-blue-400 hover:bg-blue-500 transition-colors text-white rounded-full mr-1 disabled:opacity-50"
         >
           <ArrowRight size={20} />
         </button>
