@@ -1,10 +1,10 @@
-import { Sparkles, Briefcase, Cat, Globe } from 'lucide-react';
+import { Smile, Briefcase, PencilRuler, UserRoundSearch } from 'lucide-react';
 
 export const facts = [
-    { icon: Sparkles, text: 'About me' },
-    { icon: Briefcase, text: 'Projects' },
-    { icon: Cat, text: "Skills" },
-    { icon: Globe, text: "Contact" },
+    { icon: Smile, text: 'About me', prompt: "Who are you? Tell me about yourself." },
+    { icon: Briefcase, text: 'Projects', prompt: "Show me your personal projects." },
+    { icon: PencilRuler, text: "Skills", prompt: "What are your skills?" },
+    { icon: UserRoundSearch, text: "Contact", prompt: "How can I contact you?" },
 ]; 
 
 export const skills = {

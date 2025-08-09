@@ -12,7 +12,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ input, setInput, onSend, loading 
   return (
     <div className="relative w-full">
 
-      <div className="relative flex items-center w-full p-[6px] rounded-full bg-white/30 backdrop-blur-md shadow-lg border border-gray-400/50">
+      <div className="relative flex items-center w-full md:p-[6px] rounded-full bg-white/30 backdrop-blur-md shadow-lg border border-gray-400/50">
         <input
           type="text"
           value={input}

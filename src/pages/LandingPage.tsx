@@ -12,12 +12,13 @@ const LandingPage: React.FC = () => {
     const [error] = useState<string | null>(null);
     const navigate = useNavigate();
 
-    const handleSendMessage = async () => {
-        if (input.trim() === '' || loading) return;
+    const handleSendMessage = async (message?: string) => {
+        const messageToSend = message || input;
+        if (messageToSend.trim() === '' || loading) return;
         setLoading(true);
         setTimeout(() => {
-            navigate('/chat', { state: { initialInput: input } });
-        }, 800); // Simulate loading for 0.8s
+            navigate('/chat', { state: { initialInput: messageToSend } });
+        }, 800);
     };
 
     return (
@@ -25,9 +26,8 @@ const LandingPage: React.FC = () => {
             <Header />
             <ParticlesBackground />    
             <div className="w-full flex flex-col items-center pt-20">
-                {/* Logo */}
                 <div className="mt-16 mb-6">
-                    <h1 className="text-6xl md:text-7xl font-bold tracking-tight bg-gradient-to-r from-indigo-400 to-blue-300 text-transparent bg-clip-text">
+                    <h1 className="text-5xl md:text-7xl font-bold tracking-tight bg-gradient-to-r from-indigo-400 to-blue-300 text-transparent bg-clip-text">
                         AI PORTFOLIO
                     </h1>
                 </div>
@@ -36,7 +36,6 @@ const LandingPage: React.FC = () => {
                     Hi! I'm Rj Tabiano
                 </p>
                 {error && <ErrorBanner message={error} />}
-                {/* Chat Input (centered, no min-h, no flex, no animation) or Loading Spinner */}
                 <div className="w-full max-w-xl mb-8">
                     {loading ? (
                         <div className="flex justify-center items-center">
@@ -47,8 +46,13 @@ const LandingPage: React.FC = () => {
                         <ChatInput input={input} setInput={setInput} onSend={handleSendMessage} loading={loading} />
                     )}
                 </div>
-                {/* Fact Bubbles */}
-                <FactsBubbles className=" gap-2 mt-6" />
+                <FactsBubbles 
+                  className="gap-2 md:mt-6" 
+                  onFactClick={(prompt) => {
+                    setInput(prompt);
+                    handleSendMessage(prompt);
+                  }}
+                />
             </div>
         </div>
     );
