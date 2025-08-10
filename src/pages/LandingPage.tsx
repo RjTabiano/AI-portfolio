@@ -47,7 +47,7 @@ const LandingPage: React.FC = () => {
                     )}
                 </div>
                 <FactsBubbles 
-                  className="gap-2 md:mt-6" 
+                  className="gap-2" 
                   onFactClick={(prompt) => {
                     setInput(prompt);
                     handleSendMessage(prompt);

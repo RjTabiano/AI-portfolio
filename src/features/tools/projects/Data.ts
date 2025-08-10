@@ -15,9 +15,9 @@ export interface Project {
 export const projectsData: Project[] = [
   {
     id: "1",
-    title: "Portfolio Website",
-    description: "A modern, responsive portfolio website built with React, TypeScript, and Tailwind CSS. Features a chat interface and dynamic content rendering.",
-    technologies: ["React", "TypeScript", "Tailwind CSS", "Vite"],
+    title: "TQC: Electronic Health Record with OCR Scanner",
+    description: "A modern, responsive portfolio website built with React, TypeScript, and Tailwind CSS. Features a chat interface and dynamic content rendering. ",
+    technologies: ["Laravel", "AWS Textract", "Bootstrap", "MySQL"],
     imageUrl: IMAGES.project1,
     githubUrl: "https://github.com/yourusername/portfolio",
     liveUrl: "https://yourportfolio.com",
@@ -25,9 +25,9 @@ export const projectsData: Project[] = [
   },
   {
     id: "2",
-    title: "E-Commerce Platform",
-    description: "A full-stack e-commerce platform with user authentication, product management, and payment integration.",
-    technologies: ["React", "Node.js", "MongoDB", "Stripe"],
+    title: "Rakk Clone: E-commerce platform",
+    description: "A full-stack e-commerce platform with full user authentication, product management, admin dashbord and AI Chatbot for lead gen and product recommendation.",
+    technologies: ["Laravel", "Bootstrap", "MySQL", "Python", "Gemini AI"],
     imageUrl: IMAGES.project2,
     githubUrl: "https://github.com/yourusername/ecommerce",
     featured: true

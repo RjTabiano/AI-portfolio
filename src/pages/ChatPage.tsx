@@ -160,7 +160,7 @@ const ChatPage = () => {
                 <>
                   <div
                     aria-hidden
-                    className="pointer-events-none absolute -top-3 left-0 right-0 h-6 bg-gradient-to-b from-[#0A0A0A] to-transparent"
+                    className="pointer-events-none absolute -top-3 left-0 right-0 h-6 bg-gradient-to-t from-[#0A0A0A] to-transparent"
                   />
                   <FactsBubbles 
                     className="px-6 pt-3 gap-2" 
