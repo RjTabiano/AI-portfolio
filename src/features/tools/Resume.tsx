@@ -6,7 +6,6 @@ export default function Resume() {
     return (
         <div className="w-full h-auto">
             <div className="flex items-center justify-between bg-[#333333] rounded-xl p-4 shadow-sm">
-                {/* Left Content */}
                 <div>
                     <h2 className="text-lg text-white font-semibold">Rj's Resume</h2>
                     <p className="text-sm text-white">
@@ -21,7 +20,6 @@ export default function Resume() {
                     </div>
                 </div>
 
-                {/* Download Button */}
                 <a
                     href={resumeUrl}
                     target="_blank"

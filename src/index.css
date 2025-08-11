@@ -1,7 +1,37 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 
+  /* Themed dark scrollbar */
+  .scrollbar-dark {
+    scrollbar-width: thin;
+    scrollbar-color: #3f3f46 #0a0a0a; /* thumb track */
+  }
+  .scrollbar-dark::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  .scrollbar-dark::-webkit-scrollbar-track {
+    background: #0a0a0a;
+    border-radius: 9999px;
+  }
+  .scrollbar-dark::-webkit-scrollbar-thumb {
+    background-color: #3f3f46; /* zinc-700 */
+    border-radius: 9999px;
+    border: 2px solid #0a0a0a;
+  }
+  .scrollbar-dark::-webkit-scrollbar-thumb:hover {
+    background-color: #52525b; /* zinc-600 */
+  }
+}
 
 .swiper {
   width: 100%;
@@ -15,7 +45,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 545px !important;
 }
 
 .swiper-slide img {
@@ -29,4 +58,51 @@
 .swiper-slide {
   border-radius: 8px;
   overflow: hidden;
+}
+
+/* Album Swiper overrides (scoped) */
+.album-swiper {
+  height: auto !important;
+  background: transparent;
+}
+.album-swiper .swiper-slide {
+  background: transparent;
+  min-height: 0 !important;
+  height: auto !important;
+  display: block;
+}
+/* responsive image height for album */
+.album-swiper .swiper-slide img {
+  border-radius: 8px;
+  width: 100%;
+  height: 220px; /* mobile */
+  object-fit: fill;
+}
+@media (min-width: 640px) {
+  .album-swiper .swiper-slide img { height: 300px; }
+}
+@media (min-width: 768px) {
+  .album-swiper .swiper-slide img { height: 420px; }
+}
+@media (min-width: 1024px) {
+  .album-swiper .swiper-slide img { height: 550px; }
+}
+
+.album-thumbs {
+  padding-top: 4px;
+}
+.album-thumbs .swiper-slide {
+  height: auto !important;
+  opacity: 0.6;
+  border-radius: 6px;
+  overflow: hidden;
+  background: transparent;
+}
+.album-thumbs .swiper-slide img {
+  border-radius: 6px;
+}
+.album-thumbs .swiper-slide-thumb-active {
+  opacity: 1;
+  outline: 2px solid #3f3f46; /* zinc-700 */
+  outline-offset: 0;
 } 

@@ -4,9 +4,10 @@ import { facts } from '../utility/constants';
 interface FactsBubblesProps {
     className?: string;
     onFactClick?: (prompt: string) => void;
+    extra?: React.ReactNode;
 }
 
-const FactsBubbles: React.FC<FactsBubblesProps> = ({ className = "", onFactClick }) => {
+const FactsBubbles: React.FC<FactsBubblesProps> = ({ className = "", onFactClick, extra }) => {
     return (
         <div className={`flex flex-wrap justify-center w-full ${className}`}>
             {facts.map((fact, idx) => {
@@ -22,6 +23,7 @@ const FactsBubbles: React.FC<FactsBubblesProps> = ({ className = "", onFactClick
                     </div>
                 );
             })}
+            {extra}
         </div>
     );
 };

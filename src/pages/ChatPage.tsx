@@ -6,11 +6,14 @@ import Header from '../components/Header';
 import ToolRenderer from '../components/tools/ToolRenderer';
 import { sendChatMessage } from "../services/ai/chatService";
 import { ChatMessage } from "../types";
+import MoreQuestionsSheet from "../components/QuestionSheet";
+import { MoreHorizontal } from 'lucide-react';
 
 const TYPING_SPEED = 20; // ms per character
 const USER_VISIBLE_MS = 1200;
 const USER_FADE_MS = 500;
 const ENTER_TICK_MS = 20; // one paint tick to enable CSS enter transition
+
 
 const ChatPage = () => {
   const location = useLocation();
@@ -24,6 +27,7 @@ const ChatPage = () => {
   const [isUserEntering, setIsUserEntering] = useState(false);
   const [showFacts, setShowFacts] = useState(true);
   const [hasInitialMessage, setHasInitialMessage] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(false);
   const typingInterval = useRef<number | null>(null);
   const fadeTimeoutRef = useRef<number | null>(null);
   const removeTimeoutRef = useRef<number | null>(null);
@@ -52,7 +56,7 @@ const ChatPage = () => {
           } else {
             if (typingInterval.current) clearInterval(typingInterval.current);
             setPendingAI(null);
-            return pendingAI;
+            return pendingAI as string;
           }
         });
       }, TYPING_SPEED);
@@ -113,7 +117,7 @@ const ChatPage = () => {
       <div className="flex flex-col items-center bg-[#0A0A0A] w-full border border-zinc-800 rounded-2xl shadow-2xl">
         <div className="w-full max-w-4xl h-full overflow-hidden">
           <div className="flex flex-col h-[calc(100vh-5rem)]">
-            <div className="flex-1 p-3 md:p-6 overflow-y-auto">
+            <div className="flex-1 p-3 md:p-6 overflow-y-auto scrollbar-dark">
               {chatLog.map((msg, idx) => (
                 <div key={`${msg.role}-${idx}`} className={`mb-4 flex ${msg.role === "user" ? "justify-center" : "justify-start"}`}>
                   <span
@@ -165,7 +169,18 @@ const ChatPage = () => {
                   <FactsBubbles 
                     className="px-6 pt-3 gap-2" 
                     onFactClick={(prompt) => handleSend(prompt)}
+                    extra={(
+                      <button
+                        type="button"
+                        className="ml-2 flex items-center gap-2 px-3 md:px-4 py-1.5 bg-[#1e1e1e] text-xs md:text-sm text-white border border-zinc-700 rounded-full shadow-sm hover:bg-[#2a2a2a] transition-colors duration-200"
+                        onClick={() => setMoreOpen(true)}
+                        aria-label="More questions"
+                      >
+                        <MoreHorizontal size={16} />
+                      </button>
+                    )}
                   />
+                  {/* "..." more button */}
                 </>
               )}
             </div>
@@ -180,6 +195,15 @@ const ChatPage = () => {
           </div>
         </div>
       </div>
+
+      <MoreQuestionsSheet
+        open={moreOpen}
+        onClose={() => setMoreOpen(false)}
+        onPick={(q) => {
+          setMoreOpen(false);
+          handleSend(q);
+        }}
+      />
     </div>
   );
 };

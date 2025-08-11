@@ -15,12 +15,9 @@ export default function Contact() {
         </a>
   
         <div className="flex flex-wrap gap-4 text-sm text-white/50">
-          <a href="#" className="hover:underline">LinkedIn</a>
-          <a href="#" className="hover:underline">Youtube</a>
-          <a href="#" className="hover:underline">Instagram</a>
-          <a href="#" className="hover:underline">Discord</a>
-          <a href="#" className="hover:underline">Github</a>
-          <a href="#" className="hover:underline">X</a>
+          <a href="https://www.linkedin.com/in/rj-tabiano-4495b0339/" className="hover:underline">LinkedIn</a>
+          <a href="https://www.instagram.com/jlaurencee_/" className="hover:underline">Instagram</a>
+          <a href="https://github.com" className="hover:underline">Github</a>
         </div>
       </div>
     );
