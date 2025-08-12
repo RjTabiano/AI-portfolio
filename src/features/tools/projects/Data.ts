@@ -34,8 +34,8 @@ export const projectsData: Project[] = [
     technologies: ["Laravel", "AWS Textract", "Bootstrap", "MySQL"],
     imageUrl: IMAGES.project1,
     album: IMAGES.project1Album,
-    githubUrl: "https://github.com/yourusername/portfolio",
-    liveUrl: "https://yourportfolio.com",
+    githubUrl: "https://github.com/RjTabiano/PatientRecord",
+    liveUrl: "https://github.com/RjTabiano/PatientRecord",
     featured: true
   },
   {
@@ -54,8 +54,8 @@ export const projectsData: Project[] = [
     technologies: ["Laravel", "Bootstrap", "MySQL", "Python", "Gemini AI"],
     imageUrl: IMAGES.project2,
     album: IMAGES.project2Album,
-    githubUrl: "https://github.com/yourusername/ecommerce",
-    liveUrl: "https://yourportfolio.com",
+    githubUrl: "https://github.com/RjTabiano/RakkGears-Ecommerce",
+    liveUrl: "https://github.com/RjTabiano/RakkGears-Ecommerce",
     featured: true
   }
 ];
