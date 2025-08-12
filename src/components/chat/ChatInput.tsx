@@ -24,7 +24,8 @@ const ChatInput: React.FC<ChatInputProps> = ({ input, setInput, onSend, loading 
         />
 
         <button
-          onClick={onSend}
+          type="button"
+          onClick={() => onSend()}
           disabled={loading}
           className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center bg-blue-400 hover:bg-blue-500 transition-colors text-white rounded-full mr-1 disabled:opacity-50"
         >
