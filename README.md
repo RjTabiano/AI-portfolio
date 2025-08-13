@@ -1,69 +1,50 @@
-# React + TypeScript + Vite
+# 🎨 RJ Tabiano – AI Portfolio (Frontend)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 📌 Overview
+This is the **frontend** for my AI-powered interactive portfolio.  
+It provides a sleek, modern chat interface where visitors can interact with an AI version of me.  
+The AI mimics my personality, answers questions about me, and can fetch real-time project data via the backend.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### ✨ Key Features
+- Modern chat interface with smooth animations.
+- Responsive design for desktop and mobile.
+- Connects to backend for AI responses and project data.
+- Contextual conversations powered by **Gemini-2.5-flash**.
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 🧠 How It Works
+1. The user enters a message in the chat interface.
+2. The frontend sends the message to the backend API.
+3. The backend (powered by **Gemini-2.5-flash**) generates a response and returns it.
+4. The frontend displays the AI’s reply in real time.
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+## 🛠 How to Run (Frontend Only)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 1️⃣ Clone the Repository
+```bash
+git clone https://github.com/RjTabiano/AI-portfolio-Frontend.git
+cd AI-portfolio-Frontend
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 2️⃣ Install Dependencies
+```bash
+npm install
 ```
+
+### 3️⃣ Configure Environment Variables
+```env
+VITE_BACKEND_URL=http://localhost:5000
+```
+
+### 4️⃣ Start the Development Server
+```bash
+npm run dev
+```
+#### The app will be running at: http://localhost:5173
+
+## 📂 Related Repository
+- **Backend**: [AI-portfolio-Backend](https://github.com/RjTabiano/AI-portoflio-Backend)
+
