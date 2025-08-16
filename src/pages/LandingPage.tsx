@@ -5,6 +5,7 @@ import ParticlesBackground from '../components/ParticlesBackground';
 import FactsBubbles from '../components/FactsBubbles';
 import Header from '../components/Header';
 import { useNavigate } from 'react-router-dom';
+import { Analytics } from "@vercel/analytics/next"
 
 const LandingPage: React.FC = () => {
     const [input, setInput] = useState('');
@@ -23,6 +24,7 @@ const LandingPage: React.FC = () => {
 
     return (
         <div className="relative flex flex-col min-h-screen text-white items-center justify-center px-4 overflow-hidden">
+            <Analytics />
             <Header />
             <ParticlesBackground />    
             <div className="w-full flex flex-col items-center pt-20">
