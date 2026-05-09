@@ -17,7 +17,7 @@ const SkillSection = ({ title, icon, items }: { title: string; icon: React.React
       {items.map((item, index) => (
         <span
           key={index}
-          className="bg-[#333333] text-white text-sm px-3 py-1 rounded-full"
+          className="bg-[#333333] text-white text-xs sm:text-sm px-2.5 sm:px-3 py-1 rounded-full"
         >
           {item}
         </span>
@@ -28,8 +28,8 @@ const SkillSection = ({ title, icon, items }: { title: string; icon: React.React
 
 export default function Skills() {
   return (
-    <section className="rounded-2xl p-8 w-full max-w-5xl mx-auto">
-      <h2 className="text-2xl text-white font-bold mb-10">Skills & Expertise</h2>
+    <section className="rounded-2xl p-4 sm:p-6 md:p-8 w-full max-w-5xl mx-auto">
+      <h2 className="text-xl sm:text-2xl text-white font-bold mb-8">Skills & Expertise</h2>
       <SkillSection title="Frontend Development" icon={<FaCode />} items={skills.frontend} />
       <SkillSection title="Backend & Systems" icon={<FaServer />} items={skills.backend} />
       <SkillSection title="Design & Creative Tools" icon={<FaPaintbrush />} items={skills.design} />

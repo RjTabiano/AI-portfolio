@@ -90,7 +90,7 @@ function MoreQuestionsSheet({
                         <div className="h-1 w-10 rounded-full bg-zinc-700" />
                     </div>
                     {/* Questions container */}
-                    <div className="px-4 pb-6 max-h-[40vh] overflow-y-auto no-scrollbar">
+                    <div className="px-3 sm:px-4 pb-6 max-h-[50vh] sm:max-h-[40vh] overflow-y-auto no-scrollbar">
                         {questions.map((group, idx) => (
                             <div key={idx} className="mb-6">
                                 <div className="text-sm text-zinc-300 mb-2 flex items-center gap-2">
@@ -102,10 +102,10 @@ function MoreQuestionsSheet({
                                         return (
                                             <button
                                                 key={qIdx}
-                                                className="w-full flex items-center justify-between rounded-xl border border-zinc-700 bg-[#131313] text-left text-white px-4 py-3 hover:bg-[#1a1a1a] transition-colors"
+                                                className="w-full flex items-center justify-between rounded-xl border border-zinc-700 bg-[#131313] text-left text-white px-3 sm:px-4 py-2.5 sm:py-3 hover:bg-[#1a1a1a] transition-colors"
                                                 onClick={() => onPick(item.text, item.prompt)}
                                             >
-                                                <div className="flex items-center gap-3 text-sm">
+                                                <div className="flex items-center gap-3 text-xs sm:text-sm">
                                                     <span className="inline-flex items-center justify-center h-6 w-6 rounded-full bg-[#1f1f1f] border border-zinc-700">
                                                         <Icon size={14} />
                                                     </span>

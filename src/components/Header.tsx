@@ -29,7 +29,7 @@ const Header: React.FC<HeaderProps> = ({ showFullHeader = true }) => {
 
     return (
         <header className="fixed top-0 left-0 right-0 z-50 bg-[#111111]/80 backdrop-blur-sm border-b border-zinc-800">
-            <div className="flex justify-between items-center px-6 py-4">
+            <div className="flex justify-between items-center px-3 sm:px-6 py-4">
                 <div className="flex items-center gap-3 px-4 py-2 bg-[#1e1e1e]/60 backdrop-blur-sm text-white border border-zinc-700 rounded-full hover:border-zinc-600 transition-colors">
                     <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
                     <span className="text-sm md:text-base font-medium">Looking for a talent?</span>
