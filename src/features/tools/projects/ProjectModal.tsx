@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
-import { Github } from 'lucide-react';
+import { Github, ExternalLink, X } from 'lucide-react';
 // @ts-ignore
 import 'swiper/css';
 // @ts-ignore
@@ -23,48 +23,75 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, onClose, project })
   if (!isOpen || !project) return null;
 
   const modalContent = (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50" onClick={onClose}>
-      <div className="bg-[#111111] p-6 rounded-xl shadow-lg w-full max-w-[500px] md:max-w-6xl relative mt-40 md:mt-0 max-h-[80vh] overflow-y-auto scrollbar-dark" onClick={(e) => e.stopPropagation()}>
-        <button
-          className="absolute top-2 right-2 text-white/70 hover:text-white"
-          onClick={onClose}
-        >
-          ✕
-        </button>
-
-        <h2 className="text-xl text-center md:text-3xl font-bold mb-8 tracking-tight bg-gradient-to-r from-indigo-400 to-blue-300 text-transparent bg-clip-text">
-          {project.title}
-        </h2>
-
-        <div className="grid grid-cols-1 md:grid-cols-[450px_1fr] gap-8 w-full mb-8">
-          <div className="max-w-[350px] md:max-w-none mx-auto md:mx-0 h-[500px]">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+      onClick={onClose}
+    >
+      <div
+        className="relative bg-[#111111] rounded-2xl w-full max-w-2xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col border border-zinc-800"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Hero image */}
+        <div className="relative h-52 md:h-64 flex-shrink-0">
+          {project.imageUrl ? (
             <img
               src={project.imageUrl}
               alt={project.title}
-              className="w-full h-full object-fit rounded"
+              className="w-full h-full object-cover"
             />
+          ) : (
+            <div className="w-full h-full bg-gradient-to-br from-indigo-600 to-blue-500" />
+          )}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/20" />
+
+          <div className="absolute bottom-4 left-5 right-14">
+            <h2 className="text-lg md:text-xl font-bold text-white leading-snug">
+              {project.title}
+            </h2>
           </div>
 
-          <div className="flex flex-col gap-4 w-full h-[500px] overflow-y-auto pr-2 scrollbar-dark">
-            <div className="text-base text-white/80">
-              <h4 className="text-lg text-white/90 font-semibold mb-2">Description</h4>
-              <p>{project.description.intro}</p>
-              <ul className="list-disc list-inside space-y-3 ml-4 my-5">
-                {project.description.features.map((feature: any, i: any) => (
-                  <li key={i}>{feature}</li>
-                ))}
-              </ul>
-              <p>{project.description.outro}</p>
+          <button
+            className="absolute top-3 right-3 p-1.5 rounded-full bg-black/40 backdrop-blur-sm text-white/70 hover:text-white hover:bg-black/60 transition-colors"
+            onClick={onClose}
+          >
+            <X size={16} />
+          </button>
+        </div>
+
+        {/* Scrollable body */}
+        <div className="overflow-y-auto scrollbar-dark flex-1">
+          <div className="p-5 md:p-7 space-y-6">
+
+            {/* Description */}
+            <div>
+              <p className="text-[10px] text-zinc-500 uppercase tracking-widest mb-3">Description</p>
+              <p className="text-sm text-white/80 leading-relaxed">{project.description.intro}</p>
+              {project.description.features?.length > 0 && (
+                <ul className="mt-3 space-y-2">
+                  {project.description.features.map((feature: string, i: number) => (
+                    <li key={i} className="flex gap-2.5 text-sm text-white/70">
+                      <span className="text-indigo-400 mt-0.5 flex-shrink-0">•</span>
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {project.description.outro && (
+                <p className="mt-3 text-sm text-white/60 leading-relaxed italic">
+                  {project.description.outro}
+                </p>
+              )}
             </div>
 
+            {/* Technologies */}
             {Array.isArray(project.technologies) && project.technologies.length > 0 && (
               <div>
-                <h4 className="text-sm font-semibold text-white/90 mb-2">Technologies</h4>
+                <p className="text-[10px] text-zinc-500 uppercase tracking-widest mb-3">Technologies</p>
                 <div className="flex flex-wrap gap-2">
-                  {project.technologies.map((tech: string, idx: number) => (
+                  {project.technologies.map((tech: string) => (
                     <span
-                      key={idx}
-                      className="px-2.5 py-1 rounded-full text-xs text-white bg-[#1e1e1e] border border-zinc-700"
+                      key={tech}
+                      className="px-2.5 py-1 rounded-full text-xs text-white bg-zinc-800 border border-zinc-700"
                     >
                       {tech}
                     </span>
@@ -73,17 +100,18 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, onClose, project })
               </div>
             )}
 
+            {/* Links */}
             {(project.githubUrl || project.liveUrl) && (
-              <div className="mt-auto flex flex-wrap items-center gap-3 pt-2">
+              <div className="flex flex-wrap gap-3">
                 {project.githubUrl && (
                   <a
                     href={project.githubUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md border border-zinc-700 text-sm text-white bg-[#141414] hover:bg-[#1d1d1d] transition-colors"
+                    className="flex items-center gap-2 px-4 py-2 rounded-lg border border-zinc-700 text-sm text-white bg-zinc-800 hover:bg-zinc-700 transition-colors"
                   >
-                    <Github size={16} />
-                    <span>View on GitHub</span>
+                    <Github size={15} />
+                    GitHub
                   </a>
                 )}
                 {project.liveUrl && (
@@ -91,65 +119,61 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, onClose, project })
                     href={project.liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md border border-zinc-700 text-sm text-white bg-[#141414] hover:bg-[#1d1d1d] transition-colors"
+                    className="flex items-center gap-2 px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-sm text-white transition-colors"
                   >
-                    <span>Live Demo</span>
+                    <ExternalLink size={15} />
+                    Live Demo
                   </a>
                 )}
               </div>
             )}
-          </div>
-        </div>
 
-        <div className="space-y-4">
-          <h3 className="text-lg font-semibold text-white">Project Album</h3>
-          {Array.isArray(project.album) && project.album.length > 0 ? (
-            <div className="">
-              <Swiper
-                style={{
-                  // @ts-ignore - CSS custom properties
-                  '--swiper-navigation-color': '#e5e7eb',
-                  '--swiper-pagination-color': '#e5e7eb',
-                } as React.CSSProperties}
-                spaceBetween={10}
-                navigation
-                thumbs={{ swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null }}
-                modules={[FreeMode, Navigation, Thumbs]}
-                className="album-swiper rounded-lg"
-              >
-                {project.album.map((img: string, idx: number) => (
-                  <SwiperSlide key={idx}>
-                    <img src={img} alt={`Album ${idx}`} className="w-full object-cover" />
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-              <Swiper
-                onSwiper={setThumbsSwiper}
-                spaceBetween={10}
-                slidesPerView={4}
-                freeMode
-                watchSlidesProgress
-                modules={[FreeMode, Navigation, Thumbs]}
-                className="album-thumbs mt-3"
-                breakpoints={{
-                  768: { slidesPerView: 6 },
-                  1024: { slidesPerView: 8 },
-                }}
-              >
-                {project.album.map((img: string, idx: number) => (
-                  <SwiperSlide key={idx}>
-                    <img src={img} alt={`Thumb ${idx}`} className="w-full h-20 object-cover rounded-md" />
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-            </div>
-          ) : (
-            <div className="text-zinc-400 text-sm">No album images available.</div>
-          )}
+            {/* Album */}
+            {Array.isArray(project.album) && project.album.length > 0 && (
+              <div>
+                <p className="text-[10px] text-zinc-500 uppercase tracking-widest mb-3">Album</p>
+                <Swiper
+                  style={{
+                    // @ts-ignore
+                    '--swiper-navigation-color': '#e5e7eb',
+                    '--swiper-pagination-color': '#e5e7eb',
+                  } as React.CSSProperties}
+                  spaceBetween={10}
+                  navigation
+                  thumbs={{ swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null }}
+                  modules={[FreeMode, Navigation, Thumbs]}
+                  className="album-swiper rounded-xl"
+                >
+                  {project.album.map((img: string, idx: number) => (
+                    <SwiperSlide key={idx}>
+                      <img src={img} alt={`Album ${idx}`} className="w-full object-cover rounded-xl" />
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+                <Swiper
+                  onSwiper={setThumbsSwiper}
+                  spaceBetween={8}
+                  slidesPerView={4}
+                  freeMode
+                  watchSlidesProgress
+                  modules={[FreeMode, Navigation, Thumbs]}
+                  className="album-thumbs mt-3"
+                  breakpoints={{
+                    768: { slidesPerView: 6 },
+                  }}
+                >
+                  {project.album.map((img: string, idx: number) => (
+                    <SwiperSlide key={idx}>
+                      <img src={img} alt={`Thumb ${idx}`} className="w-full h-16 object-cover rounded-lg" />
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
-
   );
 
   return ReactDOM.createPortal(modalContent, document.body);

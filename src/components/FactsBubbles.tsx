@@ -3,7 +3,7 @@ import { facts } from '../utility/constants';
 
 interface FactsBubblesProps {
     className?: string;
-    onFactClick?: (prompt: string) => void;
+    onFactClick?: (display: string, prompt: string) => void;
     extra?: React.ReactNode;
 }
 
@@ -16,7 +16,7 @@ const FactsBubbles: React.FC<FactsBubblesProps> = ({ className = "", onFactClick
                     <div
                         key={idx}
                         className="flex items-center gap-2 px-3 md:px-4 py-1.5 bg-[#1e1e1e] text-xs md:text-sm text-white border border-zinc-700 rounded-full shadow-sm cursor-pointer hover:bg-[#2a2a2a] transition-colors duration-200"
-                        onClick={() => onFactClick?.(fact.prompt)}
+                        onClick={() => onFactClick?.(fact.text, fact.prompt)}
                     >
                         <IconComponent size={16} />
                         <span>{fact.text}</span>

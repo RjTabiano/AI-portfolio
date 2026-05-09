@@ -8,6 +8,27 @@ import { sendChatMessage } from "../services/ai/chatService";
 import { ChatMessage } from "../types";
 import MoreQuestionsSheet from "../components/QuestionSheet";
 import { MoreHorizontal } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import { motion } from 'framer-motion';
+
+const markdownComponents = {
+  p: ({ children }: any) => <p className="mb-3 last:mb-0 leading-relaxed">{children}</p>,
+  strong: ({ children }: any) => <strong className="font-semibold text-white">{children}</strong>,
+  em: ({ children }: any) => <em className="italic text-white/70">{children}</em>,
+  ul: ({ children }: any) => <ul className="list-disc list-outside ml-5 space-y-1.5 mb-3">{children}</ul>,
+  ol: ({ children }: any) => <ol className="list-decimal list-outside ml-5 space-y-1.5 mb-3">{children}</ol>,
+  li: ({ children }: any) => <li className="leading-relaxed">{children}</li>,
+  h1: ({ children }: any) => <h1 className="text-2xl font-bold mb-3 mt-1">{children}</h1>,
+  h2: ({ children }: any) => <h2 className="text-xl font-semibold mb-2 mt-3">{children}</h2>,
+  h3: ({ children }: any) => <h3 className="text-base font-semibold mb-1.5 mt-2 text-white">{children}</h3>,
+  pre: ({ children }: any) => <pre className="bg-zinc-900 border border-zinc-700 rounded-xl p-4 my-3 overflow-x-auto text-sm font-mono">{children}</pre>,
+  code: ({ children, className }: any) => Boolean(className)
+    ? <code className="text-emerald-400 font-mono">{children}</code>
+    : <code className="bg-zinc-800 border border-zinc-700 rounded px-1.5 py-0.5 text-xs font-mono text-emerald-400">{children}</code>,
+  a: ({ href, children }: any) => <a href={href} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 underline underline-offset-2">{children}</a>,
+  blockquote: ({ children }: any) => <blockquote className="border-l-2 border-zinc-600 pl-4 text-white/60 italic my-2">{children}</blockquote>,
+};
 
 const TYPING_SPEED = 20; // ms per character
 const USER_VISIBLE_MS = 1200;
@@ -32,6 +53,9 @@ const ChatPage = () => {
   const fadeTimeoutRef = useRef<number | null>(null);
   const removeTimeoutRef = useRef<number | null>(null);
   const enterTimeoutRef = useRef<number | null>(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const isNearBottomRef = useRef(true);
 
   useEffect(() => {
     const initialInput = location.state?.initialInput;
@@ -74,11 +98,24 @@ const ChatPage = () => {
     };
   }, []);
 
-  const handleSend = async (message?: string) => {
+  const handleScroll = () => {
+    const el = scrollContainerRef.current;
+    if (!el) return;
+    isNearBottomRef.current = el.scrollHeight - el.scrollTop - el.clientHeight < 100;
+  };
+
+  useEffect(() => {
+    if (isNearBottomRef.current) {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [displayedAI, loading, currentToolCall]);
+
+  const handleSend = async (message?: string, displayText?: string) => {
     const messageToSend = message || input;
     if (!messageToSend.trim() || loading) return;
     setLoading(true);
-    const userMessage: ChatMessage = { role: "user", content: messageToSend };
+    isNearBottomRef.current = true;
+    const userMessage: ChatMessage = { role: "user", content: displayText || messageToSend };
     setChatLog([userMessage]);
     setInput("");
 
@@ -104,7 +141,7 @@ const ChatPage = () => {
       setIsUserFading(false);
     }, USER_VISIBLE_MS + USER_FADE_MS);
 
-    const aiReply = await sendChatMessage([userMessage]);
+    const aiReply = await sendChatMessage([{ role: "user", content: messageToSend }]);
     setLoading(false);
     setPendingAI(aiReply.response || "No reply received.");
     
@@ -117,7 +154,7 @@ const ChatPage = () => {
       <div className="flex flex-col items-center bg-[#0A0A0A] w-full border border-zinc-800 rounded-2xl shadow-2xl">
         <div className="w-full max-w-4xl h-full overflow-hidden">
           <div className="flex flex-col h-[calc(100vh-5rem)]">
-            <div className="flex-1 p-3 md:p-6 overflow-y-auto scrollbar-dark">
+            <div ref={scrollContainerRef} onScroll={handleScroll} className="flex-1 p-3 md:p-6 overflow-y-auto scrollbar-dark">
               {chatLog.map((msg, idx) => (
                 <div key={`${msg.role}-${idx}`} className={`mb-4 flex ${msg.role === "user" ? "justify-center" : "justify-start"}`}>
                   <span
@@ -131,24 +168,44 @@ const ChatPage = () => {
                 </div>
               ))}
               {loading && (
-                <div className="mb-4 text-left">
-                  <span className="inline-block px-6 py-4 rounded-xl text-lg leading-relaxed break-words text-white w-full">
-                    <span className="inline-block animate-pulse">Thinking<span className="animate-bounce">...</span></span>
-                  </span>
+                <div className="mb-4 px-1 py-4">
+                  <div className="flex gap-1.5 items-center">
+                    {[0, 1, 2].map((i) => (
+                      <motion.span
+                        key={i}
+                        className="w-2 h-2 rounded-full bg-zinc-500"
+                        animate={{ y: [0, -5, 0], opacity: [0.4, 1, 0.4] }}
+                        transition={{ duration: 0.8, delay: i * 0.15, repeat: Infinity, ease: "easeInOut" }}
+                      />
+                    ))}
+                  </div>
                 </div>
               )}
               {displayedAI && !loading && (
-                <div className="mb-4 text-left">
-                  <span className="inline-block px-1 py-4 rounded-xl text-base leading-relaxed break-words text-white w-full">
-                    {displayedAI}
-                  </span>
-                </div>
+                <motion.div
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="mb-4 text-left"
+                >
+                  <div className="px-1 py-4 text-base leading-relaxed text-white w-full">
+                    <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
+                      {displayedAI}
+                    </ReactMarkdown>
+                  </div>
+                </motion.div>
               )}
               {currentToolCall && !loading && (
-                <div className="mb-4">
+                <motion.div
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.35 }}
+                  className="mb-4"
+                >
                   <ToolRenderer toolInvocations={currentToolCall} />
-                </div>
+                </motion.div>
               )}
+              <div ref={messagesEndRef} />
             </div>
             <div className="relative">
               <div className="flex items-center justify-center px-6 pt-2">
@@ -166,9 +223,9 @@ const ChatPage = () => {
                     aria-hidden
                     className="pointer-events-none absolute -top-3 left-0 right-0 h-6 bg-gradient-to-t from-[#0A0A0A] to-transparent"
                   />
-                  <FactsBubbles 
-                    className="px-6 pt-3 gap-2" 
-                    onFactClick={(prompt) => handleSend(prompt)}
+                  <FactsBubbles
+                    className="px-6 pt-3 gap-2"
+                    onFactClick={(display, prompt) => handleSend(prompt, display)}
                     extra={(
                       <button
                         type="button"
@@ -199,9 +256,9 @@ const ChatPage = () => {
       <MoreQuestionsSheet
         open={moreOpen}
         onClose={() => setMoreOpen(false)}
-        onPick={(q) => {
+        onPick={(display, prompt) => {
           setMoreOpen(false);
-          handleSend(q);
+          handleSend(prompt, display);
         }}
       />
     </div>

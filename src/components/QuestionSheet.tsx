@@ -24,7 +24,7 @@ function MoreQuestionsSheet({
 }: {
     open: boolean;
     onClose: () => void;
-    onPick: (q: string) => void;
+    onPick: (display: string, prompt: string) => void;
 }) {
 
     const questions = [
@@ -103,7 +103,7 @@ function MoreQuestionsSheet({
                                             <button
                                                 key={qIdx}
                                                 className="w-full flex items-center justify-between rounded-xl border border-zinc-700 bg-[#131313] text-left text-white px-4 py-3 hover:bg-[#1a1a1a] transition-colors"
-                                                onClick={() => onPick(item.prompt)}
+                                                onClick={() => onPick(item.text, item.prompt)}
                                             >
                                                 <div className="flex items-center gap-3 text-sm">
                                                     <span className="inline-flex items-center justify-center h-6 w-6 rounded-full bg-[#1f1f1f] border border-zinc-700">
