@@ -23,8 +23,8 @@ const ProjectModal: React.FC<ProjectModalProps> = ({ isOpen, onClose, project })
   if (!isOpen || !project) return null;
 
   const modalContent = (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-[#111111] p-6 rounded-xl shadow-lg w-full max-w-[500px] md:max-w-6xl relative mt-40 md:mt-0 max-h-[80vh] overflow-y-auto scrollbar-dark">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50" onClick={onClose}>
+      <div className="bg-[#111111] p-6 rounded-xl shadow-lg w-full max-w-[500px] md:max-w-6xl relative mt-40 md:mt-0 max-h-[80vh] overflow-y-auto scrollbar-dark" onClick={(e) => e.stopPropagation()}>
         <button
           className="absolute top-2 right-2 text-white/70 hover:text-white"
           onClick={onClose}
